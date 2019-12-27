@@ -38,4 +38,8 @@ When the alarm is active, brightness of the lights will increase 1 unit every 7 
 
 ![](images/perfboard-back.jpg)
 
-You can find the Fritzing Sketch file that I used to design the circuit on perfboard in this repository. File name is "Wake Up Light Perfboard.fzz". It is incomplete but it can be helpful. 
+You can find the Fritzing Sketch file that I used to design the circuit on perfboard in this repository. File name is "Wake Up Light Perfboard.fzz". It is incomplete but it can be helpful.
+
+# ToDos
+
+- [ ] Replace Buzzer with MP3 module (https://www.dfrobot.com/blog-277.html)
