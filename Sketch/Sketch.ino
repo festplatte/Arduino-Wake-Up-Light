@@ -1,5 +1,5 @@
-#include <IRremote.h>			// https://github.com/z3t0/Arduino-IRremote
-#include <LiquidCrystal_I2C.h>	// https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library
+#include <IRremote.h>		   // https://github.com/z3t0/Arduino-IRremote
+#include <LiquidCrystal_I2C.h> // https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library
 #include <Wire.h>
 
 #pragma region Definitions
@@ -14,8 +14,8 @@ IRrecv irrecv(RECV_PIN);
 decode_results results;
 
 const int backlightLCD = 9;
-const int WhiteLEDStrip = 5;
-const int RedLEDStrip = 6;
+const int WhiteLEDStrip = 6;
+const int RedLEDStrip = 3;
 const int ticker = 2;
 
 int activeLED = WhiteLEDStrip;
@@ -63,12 +63,12 @@ bool nightLightEnabled = true;
 // Convert normal decimal numbers to binary coded decimal
 byte decToBcd(byte val)
 {
-	return((val / 10 * 16) + (val % 10));
+	return ((val / 10 * 16) + (val % 10));
 }
 // Convert binary coded decimal to normal decimal numbers
 byte bcdToDec(byte val)
 {
-	return((val / 16 * 10) + (val % 16));
+	return ((val / 16 * 10) + (val % 16));
 }
 
 // Brightness icon
@@ -80,8 +80,7 @@ byte sunCharacter[8] = {
 	B11011,
 	B01110,
 	B10101,
-	B00100
-};
+	B00100};
 
 // Alarm icon
 byte bellCharacter[8] = {
@@ -92,8 +91,7 @@ byte bellCharacter[8] = {
 	B01010,
 	B11111,
 	B00100,
-	B00000
-};
+	B00000};
 
 // Large exclamation mark
 byte exclamationCharacter[] = {
@@ -104,8 +102,7 @@ byte exclamationCharacter[] = {
 	B01110,
 	B00000,
 	B01110,
-	B01110
-};
+	B01110};
 
 byte soundCharacter[] = {
 	B00000,
@@ -115,8 +112,7 @@ byte soundCharacter[] = {
 	B00010,
 	B01110,
 	B01110,
-	B00000
-};
+	B00000};
 
 byte smiley[] = {
 	B00000,
@@ -126,8 +122,7 @@ byte smiley[] = {
 	B10001,
 	B01110,
 	B00000,
-	B00000
-};
+	B00000};
 
 #pragma endregion
 
@@ -158,7 +153,7 @@ void setup()
 	/* set the initial time here:
 	   DS3231 seconds, minutes, hours, day(1 for sunday, 2 for monday...), date, month, year
 	   Set the time by uncommenting the following line after editing the values and load the sketch on your arduino. Right after that, comment out the line and load the sketch again. */
-	   // setDS3231time(00,59,23,1,31,12,16);
+	// setDS3231time(00,59,23,1,31,12,16);
 }
 
 void loop()
@@ -267,7 +262,8 @@ void loop()
 	*/
 
 	// If a button is pressed on the IR remote, see GreatScott's video for how to read the codes for your remote(https://youtu.be/ftdJ0R_5NZk)
-	if (irrecv.decode(&results)) {
+	if (irrecv.decode(&results))
+	{
 		if (results.value == 0xFFA25D) //PLAY button
 		{
 			LightOn();
@@ -355,14 +351,16 @@ void loop()
 	}
 }
 
-void ActivateNightLight() {
+void ActivateNightLight()
+{
 	LightOff();
 	activeLED = RedLEDStrip;
 	brightness = 10;
 	SetBrightness(brightness);
 }
 
-void DecreaseTickerInterval() {
+void DecreaseTickerInterval()
+{
 	if (tickerInterval % 2 == 1)
 	{
 		tickerInterval -= 1;
@@ -370,7 +368,8 @@ void DecreaseTickerInterval() {
 	tickerInterval /= 2;
 }
 
-void ToggleTicker() {
+void ToggleTicker()
+{
 	if (!tickerEnabled)
 	{
 		return;
@@ -388,7 +387,8 @@ void ToggleTicker() {
 	}
 }
 
-void LightOn() {
+void LightOn()
+{
 	if (brightness != 255)
 	{
 		brightness = 255;
@@ -400,7 +400,8 @@ void LightOn() {
 	}
 }
 
-void LightOff() {
+void LightOff()
+{
 	if (lightOn)
 	{
 		brightness = 0;
@@ -437,7 +438,8 @@ void PushedAnyButton()
 	}
 }
 
-void ToggleActiveLEDStrip() {
+void ToggleActiveLEDStrip()
+{
 	LightOff();
 
 	if (activeLED == WhiteLEDStrip)
@@ -450,7 +452,8 @@ void ToggleActiveLEDStrip() {
 	}
 }
 
-bool OnceEverySecond() {
+bool OnceEverySecond()
+{
 	if (millis() - lastTimeReading > 1000)
 	{
 		lastTimeReading = millis();
@@ -564,7 +567,8 @@ void RefreshLCD()
 	}
 }
 
-String DayOfWeekForLCD() {
+String DayOfWeekForLCD()
+{
 	switch (dayOfWeek)
 	{
 	case 1:
@@ -602,7 +606,8 @@ void PrintTimeValueOnLCD(byte value)
 	lcd.print(value);
 }
 
-void ChangeBrightness(int step) {
+void ChangeBrightness(int step)
+{
 	brightness += step;
 	if (brightness > 255)
 	{
@@ -647,7 +652,8 @@ void ToggleAlarm()
 	RefreshLCD();
 }
 
-void CheckDayOrNight() {
+void CheckDayOrNight()
+{
 	if ((hour >= 21) || (hour >= 0 && hour < 9))
 	{
 		isNight = true;
@@ -658,7 +664,8 @@ void CheckDayOrNight() {
 	}
 }
 
-void SetLCDBacklight() {
+void SetLCDBacklight()
+{
 	if (backlightManuallyTurnedOff)
 	{
 		analogWrite(backlightLCD, 0);
@@ -681,22 +688,22 @@ void SetLCDBacklight() {
 }
 
 void setDS3231time(byte second, byte minute, byte hour, byte dayOfWeek,
-	byte dayOfMonth, byte month, byte year)
+				   byte dayOfMonth, byte month, byte year)
 {
 	// sets time and date data to DS3231
 	Wire.beginTransmission(DS3231_I2C_ADDRESS);
-	Wire.write(0); // set next input to start at the seconds register
-	Wire.write(decToBcd(second)); // set seconds
-	Wire.write(decToBcd(minute)); // set minutes
-	Wire.write(decToBcd(hour)); // set hours
-	Wire.write(decToBcd(dayOfWeek)); // set day of week (1=Sunday, 7=Saturday)
+	Wire.write(0);					  // set next input to start at the seconds register
+	Wire.write(decToBcd(second));	 // set seconds
+	Wire.write(decToBcd(minute));	 // set minutes
+	Wire.write(decToBcd(hour));		  // set hours
+	Wire.write(decToBcd(dayOfWeek));  // set day of week (1=Sunday, 7=Saturday)
 	Wire.write(decToBcd(dayOfMonth)); // set date (1 to 31)
-	Wire.write(decToBcd(month)); // set month
-	Wire.write(decToBcd(year)); // set year (0 to 99)
+	Wire.write(decToBcd(month));	  // set month
+	Wire.write(decToBcd(year));		  // set year (0 to 99)
 	Wire.endTransmission();
 }
-void readDS3231time(byte* second, byte* minute, byte* hour, byte* dayOfWeek,
-	byte* dayOfMonth, byte* month, byte* year)
+void readDS3231time(byte *second, byte *minute, byte *hour, byte *dayOfWeek,
+					byte *dayOfMonth, byte *month, byte *year)
 {
 	Wire.beginTransmission(DS3231_I2C_ADDRESS);
 	Wire.write(0); // set DS3231 register pointer to 00h
